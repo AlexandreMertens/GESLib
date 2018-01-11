@@ -1,0 +1,17 @@
+Date;Heure;Opération;Commentaire;234;6831
+23/02/2017;10:00:00;Étable;;NE;NE
+23/02/2017;10:00:00;GF;;x;x
+09/05/2017;10:00:00;GF;;;
+18/05/2017;10:00:00;GF;Lot 1 avec accès au Greenfeed;;
+18/05/2017;10:00:00;GF;Lot 2 non accès au Greenfeed;x;x
+23/05/2017;10:00:00;Pâture;;P;P
+23/05/2017;10:00:00;GF;;;
+26/05/2017;10:00:00;Pâture;;;
+07/06/2017;10:00:00;GF;Accès au Greenfeed en pâture;x;x
+19/09/2017;10:00:00;Étable;;;NE
+19/09/2017;10:00:00;GF;;x;x
+10/10/2017;10:00:00;Étable;;NE;
+10/10/2017;10:00:00;GF;;x;x
+08/11/2017;10:00:00;Étable;Entrée en loge expérimentale;;
+08/11/2017;10:00:00;Étable;Mise en petite loge pour récupérer le fumier;;
+08/11/2017;10:00:00;GF;;x;x
