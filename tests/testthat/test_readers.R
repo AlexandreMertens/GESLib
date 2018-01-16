@@ -1,7 +1,8 @@
 library(testthat)
 library(GESLib)
+library(xts)
 
-context("read from journal tools test")
+context("readers test")
 
 
 test_that("Date are not accepted when '2000' is missing in year", {

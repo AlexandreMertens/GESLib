@@ -21,7 +21,7 @@ readGFVisitData <- function(gf_rfid, gffile){
   colnames(gf_em.df) <- c("Measure_Time", "gf_co2", "gf_ch4")
 
   # change into a time serie
-  gf_em.xts <- xts(gf_em.df[-1], as.POSIXct(gf_em.df$Measure_Time, format="%m/%d/%Y %H:%M"))
+  gf_em.xts <- xts(gf_em.df[-1], as.POSIXct(gf_em.df$Measure_Time, format="%d/%m/%Y %H:%M:%S"))
 
   # add ch4 ratio column
   gf_em.xts <- as.xts(transform(gf_em.xts, gf_ch4ratio =  gf_ch4 / (gf_co2 + gf_ch4)))
@@ -41,10 +41,9 @@ mergeData <- function(weights.xts, gf_em.xts){
 
   try(if (nrow(gf_em.xts) == 0) stop( "No GF Data !!!"))
 
-  data.xts <- merge(gf_em.xts, weight.xts)
+  data.xts <- merge(gf_em.xts, weights.xts)
 
   # Add interpolated weights
-  if (DEBUG){print("Add interpolated weights")}
   data.xts$int_weight <- na.approx(data.xts$weight)
 
   # remove weight column and weighing rows (with NAs)

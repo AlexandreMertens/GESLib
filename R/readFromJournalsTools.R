@@ -103,11 +103,11 @@ readWeighing <- function(id, file){
 
   # Select the column with Date, Hour and the column of the animal and remove empty rows
   weights.df <- weights.df[, c("Date", "Heure", id)]
-  colnames(weights.df) <- c("Date", "Hour", "Weight")
-  weights.df <- weights.df[!(weights.df$Weight == "" | is.na(weights.df$Weight)), ]
+  colnames(weights.df) <- c("date", "hour", "weight")
+  weights.df <- weights.df[!(weights.df$weight == "" | is.na(weights.df$weight)), ]
 
   # transform into a time serie
-  weights.xts <- xts(weights.df["Weight"], order.by=as.POSIXct(paste(weights.df$Date, weights.df$Hour), format = "%d/%m/%Y %H:%M:%S"))
+  weights.xts <- xts(weights.df["weight"], order.by=as.POSIXct(paste(weights.df$date, weights.df$hour), format = "%d/%m/%Y %H:%M:%S"))
 
   checkDate(min(index(weights.xts)))
   checkDate(max(index(weights.xts)))

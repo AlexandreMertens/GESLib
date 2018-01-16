@@ -20,10 +20,18 @@ test_that("Moves is xts with realistic dates",{
   expect_s3_class(getMoves(animal), "xts")
 })
 
-animal <- setWeighing(animal, readWeighing(id="6831", file="../../data/test_weighing.csv"))
+animal2 <- new("Animal", id="X0234")
+animal2 <- setWeighing(animal, readWeighing(id="234", file="../../data/test_weighing.csv"))
 
 test_that("Weighing is xts with realistic dates",{
-  expect_s3_class(getWeighing(animal), "xts")
+  expect_s3_class(getWeighing(animal2), "xts")
+})
+
+GF_data <- readGFVisitData(gf_rfid="246000039525", gffile="../../data/test_GF_data.csv")
+
+merged_GF_data <- mergeData(getWeighing(animal2), GF_data)
+test_that("readGFVisitData returns a xts",{
+  expect_s3_class(GF_data, "xts")
 })
 
 
@@ -34,6 +42,3 @@ test_that("Weighing is xts with realistic dates",{
 
 #print(animal@data)
 #print(animal@weeklydata)
-
-
-
