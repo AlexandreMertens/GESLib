@@ -1,6 +1,7 @@
 # Several functions to read information from the journals
 
 library(xts)
+library(lubridate)
 
 #' Read the race of an animal.
 #'
@@ -57,6 +58,31 @@ readGender <- function(id, file){
   try(if(nrow(row.df) !=1) stop(paste("Several rows with same ID in ", file)))
   #return the gender
   return(row.df$Genre)
+}
+
+#' Read the list of GF Ids.
+#'
+#' \code{readGFId} returns the list of 'GF ids' of the animal with the given id, as written in the file.
+#'
+#' Details
+#'
+#' @export
+
+readGFId <- function(id, file){
+  # Construct
+  gfid.list <- list()
+  # Read the file
+  data.df <- read.csv(file, stringsAsFactors=FALSE, sep = ";")
+  # Get the rows and check that there is at least one
+  rows.df <- data.df[as.numeric(data.df$Boucle) == id, ]
+  try(if(nrow(rows.df) < 1) stop(paste("No rows with requested ID in ", file)))
+
+  for (row_it in 1:nrow(rows.df)){
+    gfid.list[row_it] <- rows.df[row_it,"Boucle_GF"]
+  }
+
+  #return the list
+  return(gfid.list)
 }
 
 #' Read the moves of an animal.

@@ -14,6 +14,11 @@ test_that("IDs, race and state are correctly saved",{
   expect_equal(getState(animal), "castré")
 })
 
+
+test_that("GF ids are well saved",{
+  expect_equal(length(readGFId(id='6831', file="../../data/test_gfid.csv")), 2)
+})
+
 animal <- setMoves(animal, readMoves(id="6831", file="../../data/test_moves.csv"))
 
 test_that("Moves is xts with realistic dates",{
