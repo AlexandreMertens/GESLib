@@ -32,7 +32,7 @@ test_that("Weighing is xts with realistic dates",{
   expect_s3_class(getWeighing(animal2), "xts")
 })
 
-GF_data <- readGFVisitData(gf_rfid="246000039525", gffile="../../data/test_GF_data.csv")
+GF_data <- readGFVisitData(gf_rfids=list("246000039525"), gffile="../../data/test_GF_data.csv")
 
 merged_GF_data <- mergeData(getWeighing(animal2), GF_data)
 test_that("readGFVisitData returns a xts",{

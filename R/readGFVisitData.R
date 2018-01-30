@@ -1,5 +1,3 @@
-
-
 library(stringr)
 library(xts)
 
@@ -10,21 +8,42 @@ library(xts)
 #' Details
 #'
 #' @export
+readGFVisitData <- function(gf_rfids, gffile){
 
-readGFVisitData <- function(gf_rfid, gffile){
+  data.df <- read.table(gffile, stringsAsFactors=FALSE, header=TRUE, sep=";", dec=",")
 
-  data <- read.table(gffile, stringsAsFactors=FALSE, header=TRUE, sep=";", dec=",")
+  # create a list taht will be filled with one time serie per gf_rfid
+  datalist <- vector("list", length(gf_rfids))
+  i <- 1
+  for (gf_rfid in gf_rfids){
+    # adapt the RFID format and import the file as a data frame
+    RFID = str_c("GF_",str_replace(gf_rfid, "246000", ""))
+    if("RFID_Number" %in% colnames(data.df) & "Measure_Time" %in% colnames(data.df) & "CO2_gperd" %in% colnames(data.df) & "CH4_gperd" %in% colnames(data.df)){
+      selected_data.df <- data.df[data.df$RFID_Number==RFID, c("Measure_Time", "CO2_gperd", "CH4_gperd")]
+    }
 
-  # adapt the RFID format and import the file as a data frame
-  RFID = str_c("GF_",str_replace(gf_rfid, "246000", ""))
-  gf_em.df <- data[data$RFID_Number==RFID, c("Measure_Time", "CO2_gperd", "CH4_gperd")]
-  colnames(gf_em.df) <- c("Measure_Time", "gf_co2", "gf_ch4")
+    else {
+      print(paste("No RFID_Number column: ", RFID))
+      break
+      }
 
-  # change into a time serie
-  gf_em.xts <- xts(gf_em.df[-1], as.POSIXct(gf_em.df$Measure_Time, format="%d/%m/%Y %H:%M:%S"))
+    colnames(selected_data.df) <- c("Measure_Time", "gf_co2", "gf_ch4")
+    # change into a time serie
+    data.xts <- xts(selected_data.df[-1], as.POSIXct(selected_data.df$Measure_Time, format="%d/%m/%Y %H:%M:%S"))
 
-  # add ch4 ratio column
-  gf_em.xts <- as.xts(transform(gf_em.xts, gf_ch4ratio =  gf_ch4 / (gf_co2 + gf_ch4)))
+
+    # add ch4 ratio column
+    if (nrow(data.xts) > 0){
+      data.xts <- as.xts(transform(data.xts, gf_ch4ratio =  gf_ch4 / (16.0 /44.0 * gf_co2 + gf_ch4)))
+    }
+
+
+    datalist[[i]] <- data.xts
+    i <- i + 1
+  }
+
+  # merging the time series
+  gf_em.xts <- do.call('rbind', datalist)
 
   return(gf_em.xts)
 }

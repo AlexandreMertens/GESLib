@@ -4,7 +4,7 @@
 \alias{readGFVisitData}
 \title{Read the greenfeed visit data.}
 \usage{
-readGFVisitData(gf_rfid, gffile)
+readGFVisitData(gf_rfids, gffile)
 }
 \description{
 \code{readGFVisitData} returns the visit data from an animal with RFID gf_rfid in a given greenfeed csv file

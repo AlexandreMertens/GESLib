@@ -38,7 +38,7 @@ readState <- function(id, file){
   row.df <- data.df[as.numeric(data.df$Boucle) == id, ]
   try(if(nrow(row.df) !=1) stop(paste("Several rows with same ID in ", file)))
   #return the state
-  return(row.df$État)
+  return(row.df$Etat)
 }
 
 #' Read the gender of an animal.
