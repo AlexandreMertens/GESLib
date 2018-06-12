@@ -18,6 +18,7 @@ Animal <- setClass(
     race = "character",
     state = "character",
     stateInfo = "character",
+    birthDate = "Date",
     weighing = "xts",
     moves = "xts",
     gf_em = "xts",
@@ -33,6 +34,7 @@ Animal <- setClass(
     race = "UNKNOWN",
     state = "UNKNOWN",
     stateInfo = "",
+    birthDate = as.Date("1/1/1900"),
     weighing = xts(),
     moves = xts(),
     gf_em = xts(),
@@ -175,6 +177,51 @@ setMethod(f="getStateInfo",
           definition = function(theObject)
           {
             return(theObject@stateInfo)
+          }
+)
+
+#' Set the birth date of an animal object.
+#'
+#' \code{setBirthDate} sets the birth date of the animal object to the given value.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="setBirthDate",
+           def=function(theObject,birthDate)
+           {
+             standardGeneric("setBirthDate")
+           }
+)
+setMethod(f="setBirthDate",
+          signature = "Animal",
+          definition = function(theObject,birthDate)
+          {
+            theObject@birthDate = birthDate
+            return(theObject)
+          }
+)
+
+#' Get the birth date of an animal object.
+#'
+#' \code{getBirthDate} returns the birthDate of the animal object.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="getBirthDate",
+           def=function(theObject)
+           {
+             standardGeneric("getBirthDate")
+           }
+)
+setMethod(f="getBirthDate",
+          signature = "Animal",
+          definition = function(theObject)
+          {
+            return(theObject@birthDate)
           }
 )
 

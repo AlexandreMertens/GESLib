@@ -6,7 +6,7 @@ context("Animal simple tests")
 animal <- new("Animal", id="X6831")
 animal <- setRace(animal, readRace(id="6831", file="../../data/test_infos.csv"))
 animal <- setState(animal, readState(id="6831", file="../../data/test_infos.csv"))
-#animal <- setGender(animal, readGender(id="6806", file="./data_infos.csv"))
+animal <- setBirthDate(animal, readBirthDate(id="6831", file="../../data/test_infos.csv"))
 
 test_that("IDs, race and state are correctly saved",{
   expect_equal(animal@id, "X6831")

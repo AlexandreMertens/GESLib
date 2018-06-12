@@ -41,6 +41,25 @@ readState <- function(id, file){
   return(row.df$Etat)
 }
 
+#' Read the date of birth of an animal.
+#'
+#' \code{readBirthDate} returns the birth date of the animal with the given id, as written in the file.
+#'
+#' Details
+#'
+#' @export
+
+readBirthDate <- function(id, file){
+
+  # Read the file
+  data.df <- read.csv(file, stringsAsFactors=FALSE, sep = ";")
+  # Get the row and check that there is only one
+  row.df <- data.df[as.numeric(data.df$Boucle) == id, ]
+  try(if(nrow(row.df) !=1) stop(paste("Several rows with same ID in ", file)))
+  #return the birth date
+  return(as.Date(row.df$Naissance, format="%d/%m/%Y"))
+}
+
 #' Read the gender of an animal.
 #'
 #' \code{readGender} returns the gender of the animal with the given id, as written in the file.
@@ -98,18 +117,17 @@ readMoves <- function(id, file){
   # Read the file
   data.df <- read.csv(file, stringsAsFactors=FALSE, sep = ";", check.names=FALSE)
   # Get the movement rows
-  moves.df <- data.df[(data.df$Opération == "Étable" | data.df$Opération == "Pâture"), ]
+  moves.df <- data.df[(data.df$Operation == "Move"), ]
 
   # Select the collumn with Date, Hour and the column of the animal and remove empty rows
   moves.df <- moves.df[, c("Date", "Heure", id)]
   colnames(moves.df) <- c("Date", "Hour", "Moves")
   moves.df <- moves.df[moves.df$Moves != "", ]
 
-  moves.xts <- xts(moves.df["Moves"], order.by=as.POSIXct(paste(moves.df$Date, moves.df$Hour), format = "%d/%m/%Y %H:%M:%S"))
+  moves.xts <- xts(moves.df["Moves"], order.by=as.POSIXct(paste(moves.df$Date, moves.df$Hour), tz = "Europe/Brussels", format = "%d/%m/%Y %H:%M:%S"))
 
   # Check that the date is realistic
-  checkDate(min(index(moves.xts)))
-  checkDate(max(index(moves.xts)))
+  checkDate(index(moves.xts))
 
   #return the xts
   return(moves.xts)
@@ -133,10 +151,9 @@ readWeighing <- function(id, file){
   weights.df <- weights.df[!(weights.df$weight == "" | is.na(weights.df$weight)), ]
 
   # transform into a time serie
-  weights.xts <- xts(weights.df["weight"], order.by=as.POSIXct(paste(weights.df$date, weights.df$hour), format = "%d/%m/%Y %H:%M:%S"))
+  weights.xts <- xts(weights.df["weight"], order.by=as.POSIXct(paste(weights.df$date, weights.df$hour), tz = "Europe/Brussels", format = "%d/%m/%Y %H:%M:%S"))
 
-  checkDate(min(index(weights.xts)))
-  checkDate(max(index(weights.xts)))
+  checkDate(index(weights.xts))
 
   #return the xts with Weights
   return(weights.xts)
