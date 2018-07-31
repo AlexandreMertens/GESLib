@@ -17,6 +17,8 @@ Animal <- setClass(
     gfid = "list",
     race = "character",
     state = "character",
+    repetition = "character",
+    treatment = "character",
     stateInfo = "character",
     birthDate = "Date",
     weighing = "xts",
@@ -34,6 +36,8 @@ Animal <- setClass(
     race = "UNKNOWN",
     state = "UNKNOWN",
     stateInfo = "",
+    repetition = "",
+    treatment = "",
     birthDate = as.Date("1/1/1900"),
     weighing = xts(),
     moves = xts(),
@@ -136,6 +140,7 @@ setMethod(f="getState",
           }
 )
 
+
 #' Set the state info of an animal object.
 #'
 #' \code{setStateInfo} sets the state info of the animal object to the stateInfo value.
@@ -177,6 +182,96 @@ setMethod(f="getStateInfo",
           definition = function(theObject)
           {
             return(theObject@stateInfo)
+          }
+)
+
+#' Set the repetition of an animal object.
+#'
+#' \code{setRepetition} sets the repetition of the animal object to the race value.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="setRepetition",
+           def=function(theObject,repetition)
+           {
+             standardGeneric("setRepetition")
+           }
+)
+setMethod(f="setRepetition",
+          signature = "Animal",
+          definition = function(theObject,repetition)
+          {
+            theObject@repetition = repetition
+            return(theObject)
+          }
+)
+
+#' Get the repetition of an animal object.
+#'
+#' \code{getRepetition} returns the repetition of the animal object.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="getRepetition",
+           def=function(theObject)
+           {
+             standardGeneric("getRepetition")
+           }
+)
+setMethod(f="getRepetition",
+          signature = "Animal",
+          definition = function(theObject)
+          {
+            return(theObject@repetition)
+          }
+)
+
+#' Set the treatment of an animal object.
+#'
+#' \code{settreatment} sets the treatment of the animal object to the treatmentvalue.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="setTreatment",
+           def=function(theObject,treatment)
+           {
+             standardGeneric("setTreatment")
+           }
+)
+setMethod(f="setTreatment",
+          signature = "Animal",
+          definition = function(theObject,treatment)
+          {
+            theObject@treatment = treatment
+            return(theObject)
+          }
+)
+
+#' Get the treatment of an animal object.
+#'
+#' \code{getTreatment} returns the treatment of the animal object.
+#'
+#' Details
+#'
+#' @export
+
+setGeneric(name="getTreatment",
+           def=function(theObject)
+           {
+             standardGeneric("getTreatment")
+           }
+)
+setMethod(f="getTreatment",
+          signature = "Animal",
+          definition = function(theObject)
+          {
+            return(theObject@treatment)
           }
 )
 

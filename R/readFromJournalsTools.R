@@ -41,6 +41,44 @@ readState <- function(id, file){
   return(row.df$Etat)
 }
 
+#' Read the repetition of an animal.
+#'
+#' \code{readRepetition} returns the rep of the animal with the given id, as written in the file.
+#'
+#' Details
+#'
+#' @export
+
+readRepetition <- function(id, file){
+
+  # Read the file
+  data.df <- read.csv(file, stringsAsFactors=FALSE, sep = ";")
+  # Get the row and check that there is only one
+  row.df <- data.df[as.numeric(data.df$Boucle) == id, ]
+  try(if(nrow(row.df) !=1) stop(paste("Several rows with same ID in ", file)))
+  #return the state
+  return(row.df$Repetition)
+}
+
+#' Read the traitement of an animal.
+#'
+#' \code{readTraitement} returns the rep of the animal with the given id, as written in the file.
+#'
+#' Details
+#'
+#' @export
+
+readTreatment <- function(id, file){
+
+  # Read the file
+  data.df <- read.csv(file, stringsAsFactors=FALSE, sep = ";")
+  # Get the row and check that there is only one
+  row.df <- data.df[as.numeric(data.df$Boucle) == id, ]
+  try(if(nrow(row.df) !=1) stop(paste("Several rows with same ID in ", file)))
+  #return the state
+  return(row.df$Treatment)
+}
+
 #' Read the date of birth of an animal.
 #'
 #' \code{readBirthDate} returns the birth date of the animal with the given id, as written in the file.
